@@ -1,3 +1,4 @@
+from statistics import mode
 from requests import session
 from sqlalchemy.orm import Session
 
@@ -41,8 +42,15 @@ def manage_staff(db:Session,staff:schemas.StaffCreate):
 def get_user_by_userid(db:Session,user_id:int):
     return db.query(models.User).filter(models.User.id == user_id).first() 
 
-def get_user_in_staff(db:session,user_id:int):
-    return db.query(models.Staff).filter(models.Staff.user_id != user_id) 
+def delete_user(db:Session,user_id:int):
+    db.query(models.User).filter(models.User.id==user_id).delete()
+    db.commit()
+
+def check(db:session,user_id:int):
+    return db.query(models.Staff).filter(models.Staff.user_id==user_id).first()
+
+# def get_user_in_staff(db:session,user_id:int):
+#     return db.query(models.Staff).filter(models.Staff.user_id == user_id) 
 
 # def get_items(db: Session, skip: int = 0, limit: int = 100):
 #     return db.query(models.Item).offset(skip).limit(limit).all()

@@ -48,12 +48,23 @@ def assign_role(role:schemas.RoleCreate,db:Session=Depends(get_db)):
 @app.post("/staff/",response_model=schemas.Staff)
 def manage_staff(staff:schemas.StaffCreate,db:session=Depends(get_db)):
     db_staff=crud.get_user_by_userid(db,user_id=staff.user_id)
-    if db_staff:
-        raise HTTPException(status_code=400, detail="user is already assign in staff")
+    db_check=crud.check(db,user_id=staff.user_id)
+    if db_check:
+        raise HTTPException(status_code=400, detail="user already assign")
     if not db_staff:
-        raise HTTPException(status_code=400, detail="user is already assign")
+        raise HTTPException(status_code=400, detail="user not exist")
+    # db_staff2=crud.get_user_in_staff(db,user_id=staff.user_id)
+    # if db_staff2:
+    #     raise HTTPException(status_code=400, detail="user is already assign")
     return crud.manage_staff(db=db, staff=staff) 
 
+@app.delete("/users/{user_id}")
+def delete_user(user_id:int,db:session=Depends(get_db)):
+    db_user=crud.get_user_by_userid(db,user_id=user_id)
+    if not db_user:
+        raise HTTPException(status_code=400, detail="user not exist")
+    crud.delete_user(db=db,user_id=user_id)
+    return {"message":f"succesfully delete user {user_id}"}
 
 
 # @app.post("/users/{user_id}/items/", response_model=schemas.Item)
