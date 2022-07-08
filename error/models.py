@@ -26,16 +26,7 @@ class Role(Base):
 
  
    staff_role=relationship("Staff",back_populates="back_role")
-   
-# class Item(Base):
-#     __tablename__ = "items"
-
-#     id = Column(Integer, primary_key=True, index=True)
-#     title = Column(String, index=True)
-#     description = Column(String, index=True)
-#     owner_id = Column(Integer, ForeignKey("users.id"))
-  
-
+    
 class Staff(Base):
     __tablename__="staff"
 
