@@ -1,8 +1,9 @@
+from email.policy import default
 from enum import unique
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String 
 from sqlalchemy.orm import relationship
 
-from .database import Base
+from database import *
 
 
 class User(Base):
