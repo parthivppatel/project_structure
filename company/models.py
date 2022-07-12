@@ -15,6 +15,7 @@ class User(Base):
     name=Column(String)
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
+    is_admin=Column(Boolean,default=False)
 
     
     staff = relationship("Staff", back_populates="owner")
