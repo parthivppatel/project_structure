@@ -13,6 +13,7 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     working_hours=Column(Integer)
     name=Column(String)
+    phone_no=Column(String,unique=True)
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
     is_admin=Column(Boolean,default=False)

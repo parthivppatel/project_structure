@@ -20,6 +20,8 @@ class UserBase(BaseModel):
     email: str
     name:str
     working_hours:int
+    phone_no :str
+
     class Config:
 	    orm_mode=True
   
