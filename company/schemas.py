@@ -20,6 +20,10 @@ class UserBase(BaseModel):
     email: str
     name:str
     working_hours:int
+    class Config:
+	    orm_mode=True
+  
+
 
 class UserCreate(UserBase):
     password: str
