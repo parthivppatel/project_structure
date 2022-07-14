@@ -14,9 +14,15 @@ def get_user_by_email(db: Session, email: str):
     return db.query(models.User).filter(models.User.email == email).first() 
 
 
-def get_users(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.User).offset(skip).limit(limit).all()
+def get_users(db: Session):
+    return db.query(models.User).all()
 
+    # select u.id,u.email,u.working_hours,u.name,u.hashed_password,u.is_active,u.is_admin,u.phone_no,r.types
+# from users u full join staff s on u.id =s.user_id  full join roles r on s.role_id =r.id  ;
+def user_role(db:session):
+    return db.query(models.User).join(models.Staff).join(models.Role).all()
+
+    # session.query(Customer).join(Invoice).filter(Invoice.amount == 8500).all()
 
 def create_user(db: Session, user: schemas.UserCreate):
     fake_hashed_password = user.password + "notreallyhashed"

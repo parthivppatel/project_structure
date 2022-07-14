@@ -15,7 +15,20 @@ class Role(RoleBase):
     class config:
         orm_mode=True
 
+class User_role(BaseModel):
+    email: str
+    name:str
+    working_hours:int
+    phone_no :str
+    id: int
+    is_active: bool
+    is_admin:bool
+     
 
+
+    class Config:
+        orm_mode = True
+    
 class UserBase(BaseModel):
     email: str
     name:str
