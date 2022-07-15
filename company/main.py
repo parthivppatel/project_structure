@@ -35,10 +35,10 @@ def read_users(db: Session = Depends(get_db)):
     users = crud.get_users(db)
     return users
 
-@app.get("/users_Role/", response_model=List[schemas.User_role])
-def read_users(db: Session = Depends(get_db)):
-    users = crud.user_role(db)
-    return users
+@app.get("/user_Role/", response_model=List[schemas.User_role])
+def roles_of_users(db: Session = Depends(get_db)):
+    return crud.user_role(db)
+
 
 @app.get("/users/{user_id}", response_model=schemas.User)
 def read_user(user_id: int, db: Session = Depends(get_db)):

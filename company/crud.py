@@ -1,8 +1,5 @@
-from pyexpat import model
-from statistics import mode
 from requests import session
-from sqlalchemy.orm import Session
-
+from sqlalchemy.orm import Session 
 import models, schemas
 
 
@@ -19,9 +16,22 @@ def get_users(db: Session):
 
     # select u.id,u.email,u.working_hours,u.name,u.hashed_password,u.is_active,u.is_admin,u.phone_no,r.types
 # from users u full join staff s on u.id =s.user_id  full join roles r on s.role_id =r.id  ;
-def user_role(db:session):
-    return db.query(models.User).join(models.Staff).join(models.Role).all()
+def user_role(db:Session):
+    first= db.query(models.User)\
+        .join(models.Staff,models.Staff.user_id==models.User.id)\
+        .join(models.Role,models.Role.id==models.Staff.role_id).all()       
+    return first
 
+# join_query = session.query(City, Airline, Flight)\
+#                     .join(Airline, Airline.primary_hub == City.name)\
+#                     .join(Flight, Flight.origin == City.name)
+    # q = Session.query(*User.__table__.columns + Document.__table__.columns).\
+    #     select_from(User).\
+    #     join(Document, User.email == Document.author).\
+    #     filter(User.email == 'someemail').all()
+    #      db.query(models.User,models.Staff)\
+    #     .join(models.Staff, models.Staff.user_id == models.User.id)\
+    #     .all()
     # session.query(Customer).join(Invoice).filter(Invoice.amount == 8500).all()
 
 def create_user(db: Session, user: schemas.UserCreate):

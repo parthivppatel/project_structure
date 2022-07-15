@@ -1,34 +1,9 @@
 from pydantic import BaseModel
+from typing import List
 
-class RoleBase(BaseModel):
-   types:str
+from sqlalchemy import true
 
-   class Config:
-        orm_mode = True
-
-class RoleCreate(RoleBase):
-    pass
-
-class Role(RoleBase):
-    id:int
-
-    class config:
-        orm_mode=True
-
-class User_role(BaseModel):
-    email: str
-    name:str
-    working_hours:int
-    phone_no :str
-    id: int
-    is_active: bool
-    is_admin:bool
-     
-
-
-    class Config:
-        orm_mode = True
-    
+ 
 class UserBase(BaseModel):
     email: str
     name:str
@@ -51,7 +26,34 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+
+class RoleBase(BaseModel):
+   types:str
+
+   class Config:
+        orm_mode = True
+
+class RoleCreate(RoleBase):
+    pass
+
+class Role(RoleBase):
+    id:int
+
+    class config:
+        orm_mode=True
+
+class User_role(BaseModel):
+    class Config:
+        orm_mode = True
+
+    email: str
+    name:str
+    working_hours:int
+    phone_no :str
+    is_active: bool
+    is_admin:bool
  
+
 
 class StaffBase(BaseModel):
     user_id:int
