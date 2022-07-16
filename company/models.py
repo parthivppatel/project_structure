@@ -17,9 +17,8 @@ class User(Base):
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
     is_admin=Column(Boolean,default=False)
-
-    
-    staff = relationship("Staff", back_populates="owner")
+    role_id= Column(Integer,ForeignKey("roles.id"))
+    roles = relationship("Role", back_populates="owner_role")
 
 class Role(Base):
    __tablename__="roles"
@@ -28,14 +27,14 @@ class Role(Base):
    types=Column(String)
 
  
-   staff_role=relationship("Staff",back_populates="back_role")
+   owner_role=relationship("User",back_populates="roles")
     
-class Staff(Base):
-    __tablename__="staff"
+# class Staff(Base):
+#     __tablename__="staff"
 
-    id = Column(Integer,primary_key=True, index=True)
-    user_id=Column(Integer,ForeignKey("users.id"))
-    role_id=Column(Integer,ForeignKey("roles.id"))
+#     id = Column(Integer,primary_key=True, index=True)
+#     user_id=Column(Integer,ForeignKey("users.id"))
+#     role_id=Column(Integer,ForeignKey("roles.id"))
 
-    owner = relationship("User", back_populates="staff")
-    back_role = relationship("Role", back_populates="staff_role")
+#     owner = relationship("User", back_populates="staff")
+#     back_role = relationship("Role", back_populates="staff_role")

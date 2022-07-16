@@ -5,8 +5,9 @@ from typing import List
 
 import crud, models, schemas
 from database import SessionLocal, engine
+from models import User,Role
 
-# models.Base.metadata.create_all(bind=engine)
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
@@ -35,9 +36,12 @@ def read_users(db: Session = Depends(get_db)):
     users = crud.get_users(db)
     return users
 
-@app.get("/user_Role/", response_model=List[schemas.User_role])
+@app.get("/user_Role/")
 def roles_of_users(db: Session = Depends(get_db)):
-    return crud.user_role(db)
+    db_query=db.query(User.id,User.name,User.email,User.is_admin,User.role_id,Role.types)\
+    .join(Role,Role.id == User.role_id, isouter=True)\
+    .all()
+    return db_query
 
 
 @app.get("/users/{user_id}", response_model=schemas.User)
@@ -49,6 +53,9 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 
 @app.post("/roles/",response_model=schemas.Role)
 def assign_role(role:schemas.RoleCreate,db:Session=Depends(get_db)):
+    check_role=db.query(models.Role).filter(models.Role.types==role.types).first()
+    if check_role:
+        raise HTTPException(status_code=404, detail="role already assign")
     return crud.assign_role(db=db,role=role)
 
 
